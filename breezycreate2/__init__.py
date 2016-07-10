@@ -29,7 +29,7 @@ import struct
 import os
 import warnings
 import time
-from pkg_resources import resource_string
+import pkg_resources
 
 class _Error(Exception):
     """Error"""
@@ -83,7 +83,7 @@ class _Config(object):
         """ Loads a Create2 config file, that holds various dicts of opcodes.
         
         """
-        self.data = json.loads(resource_string('breezycreate2', self.fname))
+        self.data = json.loads(pkg_resources.resource_string('breezycreate2', self.fname).decode('utf8'))
         
 class _SerialCommandInterface(object):
     """This class handles sending commands to the Create2.
