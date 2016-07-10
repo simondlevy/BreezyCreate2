@@ -3,6 +3,7 @@
 # Copyright (c) 2007 Damon Kohler
 # Copyright (c) 2015 Jonathan Le Roux (Modifications for Create 2)
 # Copyright (c) 2015 Brandon Pomeroy
+# Copyright (c) 2016 Simon D. Levy (simplifications)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -68,7 +69,7 @@ class ROIFailedToReceiveError(Error):
 
 
         
-class Config(object):
+class _Config(object):
     """This class handles loading and saving config files that store the
         Opcodes and other useful dicts
     
@@ -148,7 +149,7 @@ class Create2(object):
     def __init__(self, port='/dev/ttyUSB0', baud=115200):
         
         self.SCI = SerialCommandInterface(port, baud)
-        self.config = Config()
+        self.config = _Config()
         self.config.load()
         self.decoder = sensorPacketDecoder(dict(self.config.data['sensor group packet lengths']))
         # Load a raw sensor dict. None of these values are correct.
