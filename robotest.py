@@ -13,6 +13,8 @@ bot.playNote('A4', 100)
 
 time.sleep(1)
 
+bot.close()
+
 exit(0)
 
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
