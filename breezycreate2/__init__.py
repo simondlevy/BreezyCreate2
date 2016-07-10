@@ -26,7 +26,6 @@
 import json
 import serial
 import struct
-import os
 import warnings
 import time
 import pkg_resources
@@ -138,6 +137,23 @@ class _SerialCommandInterface(object):
 
     
         
+class Robot(object):
+
+    def __init__(self, port='/dev/ttyUSB0', baud=115200):
+
+        self.robot = Create2(port, baud)
+        self.robot.start()
+        self.robot.safe()
+
+    def close(self):
+
+        self.robot.destroy()
+
+    def playNote(self, note, duration):
+
+        self.robot.play_note(note, duration)
+
+
         
 class Create2(object):
     """The top level class for controlling a Create2.
@@ -145,7 +161,7 @@ class Create2(object):
     
     """
     
-    def __init__(self, port='/dev/ttyUSB0', baud=115200):
+    def __init__(self, port, baud):
         
         self.SCI = _SerialCommandInterface(port, baud)
         self.config = _Config()

@@ -37,7 +37,7 @@ bot.safe()
 #time.sleep(2)
 
 # Listen for a bumper hit
-for k in range(5):
+while True:
     
     #Packet 100 contains all sensor data.
     bot.get_packet(100)
@@ -46,8 +46,7 @@ for k in range(5):
     sensors = bot.sensor_state # a dictionary
     for key in sensors.keys():
         if key == 'wheel drop and bumps':
-        #if 'bump' in key:
-            print(key, sensors[key])
+            print(sensors[key])
     print('-------------------------------')
 
     time.sleep(.5)
