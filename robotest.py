@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-DRIVETIME = 1 #seconds
-
 from breezycreate2 import Robot
 import time
 
@@ -12,17 +10,17 @@ bot = Robot()
 bot.playNote('A4', 100)
 
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
-bot.setTurnSpeed(100)
+bot.setTurnSpeed(50)
 
-# Wait for a few seconds
-time.sleep(DRIVETIME)
+# Wait a second
+time.sleep(1)
 
 # Stop
 bot.setTurnSpeed(0)
 
-# Listen for bumper hits for ten seconds
+# Listen for bumper hits for a few seconds
 start_time = time.time()
-while (time.time() - start_time) < 10:
+while (time.time() - start_time) < 3:
     
     print(bot.getBumpers())
 

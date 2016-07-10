@@ -56,13 +56,17 @@ class Robot(object):
 
     def setForwardSpeed(self, speed):
         '''
-        Sets the robot's forward speed in mm/sec.  Use negative for reverse.
+        Sets the robot's forward speed.  
+        Speeds must be between -500 and +500.
+        Use negative for reverse.
         '''
         self.robot.drive_straight(speed)
 
     def setTurnSpeed(self, speed):
         '''
-        Sets the robot's right turn speed in mm/sec.  Uset negative for left turn.
+        Sets the robot's right turn speed.  
+        Speeds must be between -500 and +500.
+        Use negative for left turn.
         '''
         self.robot.turn_clockwise(speed)
 
