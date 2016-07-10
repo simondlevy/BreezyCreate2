@@ -31,7 +31,7 @@ import warnings
 import time
 from pkg_resources import resource_string
 
-class Error(Exception):
+class _Error(Exception):
     """Error"""
     pass
 
@@ -39,8 +39,8 @@ def custom_format_warning(message, category, filename, lineno, file=None, line=N
     return 'Line ' + str(lineno) + ': ' + str(message) + '\n'
     #return ' %s:%s: %s:%s' % (filename, lineno, category.__name__, message)
     
-class ROIDataByteError(Error):
-    """Exception raised for errors in ROI data bytes.
+class _ROIDataByteError(_Error):
+    """Exception raised for errors in _ROI data bytes.
     
         Attributes:
             msg -- explanation of the error
@@ -49,7 +49,7 @@ class ROIDataByteError(Error):
     def __init__(self, msg):
         self.msg = msg
 
-class ROIFailedToSendError(Error):
+class _ROIFailedToSendError(_Error):
     """Exception raised when an error in data bytes prevented a packet to be sent
     
         Attributes:
@@ -58,7 +58,7 @@ class ROIFailedToSendError(Error):
     def __init__(self, msg):
         self.msg = msg
 
-class ROIFailedToReceiveError(Error):
+class _ROIFailedToReceiveError(_Error):
     """Exception raised when there is an error in the data received from the Create 2
         
         Attributes:
@@ -85,7 +85,7 @@ class _Config(object):
         """
         self.data = json.loads(resource_string('breezycreate2', self.fname))
         
-class SerialCommandInterface(object):
+class _SerialCommandInterface(object):
     """This class handles sending commands to the Create2.
     
     """
@@ -127,9 +127,9 @@ class SerialCommandInterface(object):
         data = self.ser.read(num_bytes)
         #logging.debug('Read %d bytes from SCI port.' % len(data))
         if not data:
-            raise ROIFailedToReceiveError('Error reading from SCI port. No data.')
+            raise _ROIFailedToReceiveError('Error reading from SCI port. No data.')
         if len(data) != num_bytes:
-            raise ROIFailedToReceiveError('Error reading from SCI port. Wrong data length.')
+            raise _ROIFailedToReceiveError('Error reading from SCI port. Wrong data length.')
         return data
     
     def Close(self):
@@ -148,10 +148,10 @@ class Create2(object):
     
     def __init__(self, port='/dev/ttyUSB0', baud=115200):
         
-        self.SCI = SerialCommandInterface(port, baud)
+        self.SCI = _SerialCommandInterface(port, baud)
         self.config = _Config()
         self.config.load()
-        self.decoder = sensorPacketDecoder(dict(self.config.data['sensor group packet lengths']))
+        self.decoder = _sensorPacketDecoder(dict(self.config.data['sensor group packet lengths']))
         # Load a raw sensor dict. None of these values are correct.
         self.sensor_state = dict(self.config.data['sensor data']) 
         self.sleep_timer = .5
@@ -193,7 +193,7 @@ class Create2(object):
         if baudRate in baud_dict:
             self.SCI.send(self.config.data['opcodes']['baud'], tuple(baud_dict[baudRate]))
         else:
-            raise ROIDataByteError("Invalid buad rate")
+            raise _ROIDataByteError("Invalid buad rate")
     
     
     def safe(self):
@@ -256,24 +256,24 @@ class Create2(object):
             data[0] = day_dict[day]
         else:
             noError = False
-            raise ROIDataByteError("Invalid day input")
+            raise _ROIDataByteError("Invalid day input")
         
         if hour >= 0 and hour <= 23:
             data[1] = hour
         else:
             noError = False
-            raise ROIDataByteError("Invalid hour input")
+            raise _ROIDataByteError("Invalid hour input")
         
         if minute >= 0 and minute <= 59:
             data[2] = minute
         else:
             noError = False
-            raise ROIDataByteError("Invalid minute input")
+            raise _ROIDataByteError("Invalid minute input")
             
         if noError:
             self.SCI.send(self.config.data['opcodes']['set_day_time'], tuple(data))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
     
     def drive(self, velocity, radius): 
         """Controls the Create 2's drive wheels.
@@ -298,7 +298,7 @@ class Create2(object):
             #Convert 16bit velocity to Hex
         else:
             noError = False
-            raise ROIDataByteError("Invalid velocity input")
+            raise _ROIDataByteError("Invalid velocity input")
         
         if radius == 32767 or radius == -1 or radius == 1:
             #Special case radius
@@ -310,7 +310,7 @@ class Create2(object):
                 #Convert 16bit radius to Hex
             else:
                 noError = False
-                raise ROIDataByteError("Invalid radius input")
+                raise _ROIDataByteError("Invalid radius input")
 
         if noError:
             data = struct.unpack('4B', struct.pack('>2H', v, r))
@@ -327,7 +327,7 @@ class Create2(object):
             
             self.SCI.send(self.config.data['opcodes']['drive'], data)
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
         
     
     def drive_direct(self):
@@ -361,23 +361,23 @@ class Create2(object):
             data[0] = main_pwm
         else:
             noError = False
-            raise ROIDataByteError("Invalid Main Brush input")
+            raise _ROIDataByteError("Invalid Main Brush input")
         if side_pwm >= -127 and side_pwm <= 127:
             data[1] = side_pwm
         else:
             noError = False
-            raise ROIDataByteError("Invalid Side Brush input")
+            raise _ROIDataByteError("Invalid Side Brush input")
         if vacuum_pwm >= 0 and vacuum_pwm <= 127:
             data[2] = vacuum_pwm
         else:
             noError = False
-            raise ROIDataByteError("Invalid Vacuum input")
+            raise _ROIDataByteError("Invalid Vacuum input")
         
         #Send it off if there were no errors.
         if noError:
             self.SCI.send(self.config.data['opcodes']['motors_pwm'], tuple(data))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
         
     
     def led(self):
@@ -419,7 +419,7 @@ class Create2(object):
         else:
             #Too many or too few characters!
             noError = False
-            raise ROIDataByteError("Invalid ASCII input (Must be EXACTLY four characters)")
+            raise _ROIDataByteError("Invalid ASCII input (Must be EXACTLY four characters)")
         if noError:
             #Need to map ascii to numbers from the dict.
             for i in range (0,4):
@@ -436,7 +436,7 @@ class Create2(object):
             #print display_list
             self.SCI.send(self.config.data['opcodes']['digit_led_ascii'], tuple(display_list))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
         
     
         
@@ -482,7 +482,7 @@ class Create2(object):
         if noError:
             self.SCI.send(self.config.data['opcodes']['song'], tuple(play_sequence))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
             
     
 
@@ -500,7 +500,7 @@ class Create2(object):
         if noError:   
             self.SCI.send(self.config.data['opcodes']['song'],tuple(play_list))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
 
     def play(self,song_number):
         """Plays a stored song
@@ -510,7 +510,7 @@ class Create2(object):
         if noError:
             self.SCI.send(self.config.data['opcodes']['play'], tuple([song_number]))
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
             
     def play_note(self,note_name,note_duration):
         """Plays a single note by creating a 1 note song in song 0
@@ -569,7 +569,7 @@ class Create2(object):
             self.create_song(song_number,play_list)
             self.play(song_number)
         else:
-            raise ROIFailedToSendError("Invalid data, failed to send")
+            raise _ROIFailedToSendError("Invalid data, failed to send")
                 
     def sensors(self, packet_id):
         """Requests the OI to send a packet of sensor data bytes.
@@ -585,7 +585,7 @@ class Create2(object):
             packet_id = [int(packet_id)]
             self.SCI.send(self.config.data['opcodes']['sensors'], tuple(packet_id))
         else:
-            raise ROIFailedToSendError("Invalid packet id, failed to send")
+            raise _ROIFailedToSendError("Invalid packet id, failed to send")
         
     
     def query_list(self):
@@ -657,12 +657,12 @@ class Create2(object):
             return True
         else:
             #The packet was invalid, raise an error
-            raise ROIDataByteError("Invalid packet ID")
+            raise _ROIDataByteError("Invalid packet ID")
             return False
 
 
 
-class sensorPacketDecoder(object):
+class _sensorPacketDecoder(object):
     """ A class that handles sensor packet decoding. 
         
         This class may, in the future, become a private class. Users shouldn't be interacting with
