@@ -15,31 +15,29 @@ bot.start()
 # Put the Create2 into 'safe' mode so we can drive it
 bot.safe()
 
-bot.play_note('A4', 100)
+# Play a note to let us know you're alive!
+#bot.play_note('A4', 100)
 
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
-bot.drive_straight(100)
+#bot.drive_straight(100)
 
 # Wait for a few seconds
-time.sleep(DRIVETIME)
+#time.sleep(DRIVETIME)
 
 # Tell the Create2 to drive straight backward at a speed of 100 mm/s
-bot.drive_straight(-100)
+#bot.drive_straight(-100)
 
 # Wait for a few seconds
-time.sleep(DRIVETIME)
+#time.sleep(DRIVETIME)
 
 # Stop the bot
-bot.drive_straight(0)
+#bot.drive_straight(0)
 
-bot.turn_clockwise(100)
-time.sleep(2)
-bot.turn_clockwise(0)
-
-exit(0)
+#bot.turn_clockwise(100)
+#time.sleep(2)
 
 # Listen for a bumper hit
-while True:
+for k in range(5):
     
     #Packet 100 contains all sensor data.
     bot.get_packet(100)

@@ -649,6 +649,8 @@ class Create2(object):
             self.sensors(packet_id)
             #Read the data
             packet_byte_data = list(self.SCI.Read(packet_size))
+            if type(packet_byte_data[0]) is int: # support Python3
+                packet_byte_data = [chr(x) for x in packet_byte_data]
             # Once we have the byte data, we need to decode the packet and save the new sensor state
             self.sensor_state = self.decoder.decode_packet(packet_id, packet_byte_data, self.sensor_state)
             return True
@@ -1046,7 +1048,7 @@ class _sensorPacketDecoder(object):
         
             Returns: A dict of 'wheel drop and bumps'
         """
-        byte = struct.unpack('B', data)[0]
+        byte = self.safe_unpack('B', data)[0]
         return_dict = {
             'drop left': bool(byte & 0x08),
             'drop right': bool(byte & 0x04),
@@ -1122,7 +1124,7 @@ class _sensorPacketDecoder(object):
         
             Returns: A dict of 'wheel overcurrents'
         """
-        byte = struct.unpack('B', data)[0]
+        byte = self.safe_unpack('B', data)[0]
         return_dict = {
             'left wheel': bool(byte & 0x10),
             'right wheel': bool(byte & 0x08),
@@ -1168,7 +1170,7 @@ class _sensorPacketDecoder(object):
         
             Returns: a dict of 'buttons'
         """
-        byte = struct.unpack('B', data)[0]
+        byte = self.safe_unpack('B', data)[0]
         return_dict = {
             'clock': bool(byte & 0x80),
             'schedule': bool(byte & 0x40),
@@ -1351,7 +1353,7 @@ class _sensorPacketDecoder(object):
         
             Returns: A dict of 'charging sources available'
         """
-        byte = struct.unpack('B', data)[0]
+        byte = self.safe_unpack('B', data)[0]
         return_dict = {
             'home base': bool(byte & 0x02),
             'internal charger': bool(byte & 0x01)}
@@ -1474,7 +1476,7 @@ class _sensorPacketDecoder(object):
         
             Returns: A dict of 'light bumper'
         """
-        byte = struct.unpack('B', data)[0]
+        byte = self.safe_unpack('B', data)[0]
         return_dict = {
             'right': bool(byte & 0x20),
             'front right': bool(byte & 0x10),
@@ -1627,7 +1629,10 @@ class _sensorPacketDecoder(object):
         """
         return self.decode_bool(data)  
 
-        
+    def safe_unpack(self, fmt, data):
+
+        return struct.unpack(fmt, data.encode('utf8'))
+
     def decode_bool(self, byte):
         """ Decode a byte and return the value
         
@@ -1635,7 +1640,7 @@ class _sensorPacketDecoder(object):
                 byte: The byte to be decoded
             Returns: True or False
         """
-        return bool(struct.unpack('B', byte)[0])
+        return bool(self.safe_unpack('B', byte)[0])
     
 
     def decode_unsigned_short(self, low, high):
@@ -1647,7 +1652,7 @@ class _sensorPacketDecoder(object):
                 high: The high byte o the 2's complement.
             Returns: 16bit unsigned short
         """
-        return struct.unpack('>H', high + low)[0]
+        return ord(high) << 8 | ord(low) # XXX does this discard sign?
         
     def decode_short(self, low, high):
         """ Decode an 16 bit short from two bytes. 
@@ -1658,7 +1663,7 @@ class _sensorPacketDecoder(object):
                 high: The high byte of the 2's complement.
             Returns: 16bit short
         """
-        return struct.unpack('>h', high + low)[0]
+        return ord(high) << 8 | ord(low) # XXX does this discard sign?
         
     def decode_byte(self, byte):
         """ Decode a signed byte into a signed char 
@@ -1667,7 +1672,7 @@ class _sensorPacketDecoder(object):
                 byte: The byte to be decoded
             Returns: A signed int
         """
-        return struct.unpack('b', byte)[0]
+        return self.safe_unpack('b', byte)[0]
     
     def decode_unsigned_byte(self, byte):
         """ Decode an unsigned byte into an unsigned char 
@@ -1676,7 +1681,7 @@ class _sensorPacketDecoder(object):
                 byte: The byte to be decoded
             Returns: An unsigned int
         """
-        return struct.unpack('B', byte)[0]
+        return self.safe_unpack('B', byte)[0]
     
 
 
