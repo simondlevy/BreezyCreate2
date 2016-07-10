@@ -95,12 +95,11 @@ class _SerialCommandInterface(object):
         self.ser = serial.Serial()
         self.ser.port = com
         self.ser.baudrate = baud
-        print self.ser.name
         if self.ser.isOpen(): 
-            print "port was open"
+            print("port was open")
             self.ser.close()
         self.ser.open()
-        print "opened port"
+        print("connected")
     
     def send(self, opcode, data):
         #First thing to do is convert the opcode to a tuple.
@@ -114,7 +113,6 @@ class _SerialCommandInterface(object):
         else:
             #Add the opcodes and data together
             bytes = temp_opcode + data
-        #print bytes
         self.ser.write(struct.pack('B' * len(bytes), *bytes))
     
     def Read(self, num_bytes):
@@ -161,7 +159,7 @@ class Create2(object):
         """Closes up serial ports and terminates connection to the Create2
         """
         self.SCI.Close()
-        print 'Disconnected'
+        print('Disconnected')
     
     
     """ START OF OPEN INTERFACE COMMANDS
@@ -413,7 +411,6 @@ class Create2(object):
         """
         noError = True
         display_string = display_string.upper()
-        #print display_string
         if len(display_string) == 4:
             display_list = []
         else:
@@ -433,7 +430,6 @@ class Create2(object):
                     warnings.formatwarning = custom_format_warning
                     warnings.warn("Warning: Char '" + display_string[i] + "' was not found in ascii table")
                 
-            #print display_list
             self.SCI.send(self.config.data['opcodes']['digit_led_ascii'], tuple(display_list))
         else:
             raise _ROIFailedToSendError("Invalid data, failed to send")
