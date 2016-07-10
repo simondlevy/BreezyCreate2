@@ -15,6 +15,8 @@ bot.start()
 # Put the Create2 into 'safe' mode so we can drive it
 bot.safe()
 
+bot.play_note('A4', 100)
+
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
 bot.drive_straight(100)
 
