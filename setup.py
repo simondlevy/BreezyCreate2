@@ -25,11 +25,11 @@ from distutils.core import setup
 
 
 setup (name = 'BreezyCreate2',
-    version = '0.1',
-    description = 'Simple API for iRobot Create2',
-    packages = ['breezycreate2'],
-    author='Simon D. Levy',
-    author_email='simon.d.levy@gmail.com',
-    license='LGPL',
-    platforms='Linux; Windows; OS X'
-    )
+        packages = ['breezycreate2'],
+        version = '0.1',
+        description = 'Simple API for iRobot Create2',
+        author='Simon D. Levy',
+        author_email='simon.d.levy@gmail.com',
+        license='LGPL',
+        platforms='Linux; Windows; OS X'
+        )
