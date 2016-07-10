@@ -12,7 +12,7 @@ bot = Robot()
 bot.playNote('A4', 100)
 
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
-bot.setForwardSpeed(100)
+bot.setTurnSpeed(100)
 
 # Wait for a few seconds
 time.sleep(DRIVETIME)
