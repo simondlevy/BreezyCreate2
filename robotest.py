@@ -20,23 +20,10 @@ time.sleep(DRIVETIME)
 # Stop
 bot.setTurnSpeed(0)
 
-'''
-
-# Listen for a bumper hit
+# Listen for bumper hits
 while True:
     
-    #Packet 100 contains all sensor data.
-    bot.get_packet(100)
-
-    #print json.dumps(bot.sensor_state, indent=4, sort_keys=False)
-    sensors = bot.sensor_state # a dictionary
-    for key in sensors.keys():
-        if key == 'wheel drop and bumps':
-            print(sensors[key])
-    print('-------------------------------')
-
-    time.sleep(.5)
-'''
+    print(bot.getBumpers())
 
 # Close the connection
 bot.close()

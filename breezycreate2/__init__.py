@@ -30,6 +30,55 @@ import warnings
 import time
 import pkg_resources
 
+class Robot(object):
+
+    def __init__(self, port='/dev/ttyUSB0', baud=115200):
+        '''
+        Connects to the Create2 on the specified port at the specified baud rate.
+        '''
+
+        self.robot = _Create2(port, baud)
+        self.robot.start()
+        self.robot.safe()
+
+    def close(self):
+        '''
+        Closes the connection to the robot.
+        '''
+
+        self.robot.destroy()
+
+    def playNote(self, note, duration):
+        '''
+        Plays a specified note for a specified duration.
+        '''
+
+        self.robot.play_note(note, duration)
+
+    def setForwardSpeed(self, speed):
+        '''
+        Sets the robot's forward speed in mm/sec.  Use negative for reverse.
+        '''
+        self.robot.drive_straight(speed)
+
+    def setTurnSpeed(self, speed):
+        '''
+        Sets the robot's right turn speed in mm/sec.  Uset negative for left turn.
+        '''
+        self.robot.turn_clockwise(speed)
+
+    def getBumpers(self):
+        '''
+        Returns left,right bumper states as booleans.
+        '''
+
+        #Packet 100 contains all sensor data.
+        self.robot.get_packet(100)
+
+        sensors = self.robot.sensor_state['wheel drop and bumps']
+        return sensors['bump left'], sensors['bump right']
+
+
 class _Error(Exception):
     """Error"""
     pass
@@ -137,43 +186,6 @@ class _SerialCommandInterface(object):
 
     
         
-class Robot(object):
-
-    def __init__(self, port='/dev/ttyUSB0', baud=115200):
-        '''
-        Connects to the Create2 on the specified port at the specified baud rate.
-        '''
-
-        self.robot = _Create2(port, baud)
-        self.robot.start()
-        self.robot.safe()
-
-    def close(self):
-        '''
-        Connects to the Create2 on the specified port at the specified baud rate.
-        '''
-
-        self.robot.destroy()
-
-    def playNote(self, note, duration):
-        '''
-        Plays a specified note for a specified duration.
-        '''
-
-        self.robot.play_note(note, duration)
-
-    def setForwardSpeed(self, speed):
-        '''
-        Sets the robot's forward speed in mm/sec.
-        '''
-        self.robot.drive_straight(speed)
-
-    def setTurnSpeed(self, speed):
-        '''
-        Sets the robot's forward speed in mm/sec.
-        '''
-        self.robot.turn_clockwise(speed)
-
 class _Create2(object):
     """The top level class for controlling a Create2.
         This is the only class that outside scripts should be interacting with.    
