@@ -174,13 +174,6 @@ class Robot(object):
         '''
         self.robot.turn_clockwise(speed)
 
-    def stop(self):
-        '''
-        Halts all motion on the robot
-        '''
-        self.robot.drive_straight(0)
-        self.turn_clockwise(0)
-        
 class _Create2(object):
     """The top level class for controlling a Create2.
         This is the only class that outside scripts should be interacting with.    

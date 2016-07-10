@@ -18,7 +18,7 @@ bot.setTurnSpeed(100)
 time.sleep(DRIVETIME)
 
 # Stop
-bot.stop()
+bot.setTurnSpeed(0)
 
 '''
 
