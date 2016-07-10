@@ -91,7 +91,7 @@ class Config(object):
                 try:
                     self.data = json.load(fileData)
                     print 'Loaded config and opcodes'
-                except ValueError, e:
+                except:
                     print 'Could not load config'
         else:
             #couldn't find file
@@ -581,7 +581,7 @@ class Create2(object):
                     play_list.append(self.config.data['midi table']['rest'])
                     play_list.append(duration_list[i])
                     warnings.formatwarning = custom_format_warning
-                    warnings.warn("Warning: Note '" + display_string[i] + "' was not found in midi table")
+                    warnings.warn("Warning: Note '" + note_string + "' was not found in midi table")
                 
             #play the song
             self.create_song(song_number,play_list)
@@ -701,7 +701,6 @@ class sensorPacketDecoder(object):
             Returns:
                 A dict containing the updated sensor states of the Create 2
         """
-        return_dict = None
         id = int(packet_id)  # Convert the packet id from a string to an int
         
         # Depending on the packet id, we will need to do different decoding.
@@ -725,7 +724,7 @@ class sensorPacketDecoder(object):
             sensor_data['distance'] = self.decode_packet_19(byte_data.pop(), byte_data.pop())
             sensor_data['buttons'] = self.decode_packet_18(byte_data.pop())
             sensor_data['infared char omni'] = self.decode_packet_17(byte_data.pop())
-            temp = self.decode_packet_16(byte_data.pop())
+            self.decode_packet_16(byte_data.pop())
             sensor_data['dirt detect'] = self.decode_packet_15(byte_data.pop())
             sensor_data['wheel overcurrents'] = self.decode_packet_14(byte_data.pop())
             sensor_data['virtual wall'] = self.decode_packet_13(byte_data.pop())
@@ -738,7 +737,7 @@ class sensorPacketDecoder(object):
             
         elif id == 1:
             # Size 10, contains 7-16
-            temp = self.decode_packet_16(byte_data.pop())
+            self.decode_packet_16(byte_data.pop())
             sensor_data['dirt detect'] = self.decode_packet_15(byte_data.pop())
             sensor_data['wheel overcurrents'] = self.decode_packet_14(byte_data.pop())
             sensor_data['virtual wall'] = self.decode_packet_13(byte_data.pop())
@@ -768,8 +767,8 @@ class sensorPacketDecoder(object):
         elif id == 4:
             # size 14, contains 27-34
             sensor_data['charging sources available'] = self.decode_packet_34(byte_data.pop())
-            temp1 = self.decode_packet_33(byte_data.pop(), byte_data.pop())
-            temp = self.decode_packet_32(byte_data.pop())
+            self.decode_packet_33(byte_data.pop(), byte_data.pop())
+            self.decode_packet_32(byte_data.pop())
             sensor_data['cliff right signal'] = self.decode_packet_31(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front right signal'] = self.decode_packet_30(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front left signal'] = self.decode_packet_29(byte_data.pop(), byte_data.pop())
@@ -798,8 +797,8 @@ class sensorPacketDecoder(object):
             sensor_data['song number'] = self.decode_packet_36(byte_data.pop())
             sensor_data['oi mode'] = self.decode_packet_35(byte_data.pop())
             sensor_data['charging sources available'] = self.decode_packet_34(byte_data.pop())
-            temp2 = self.decode_packet_33(byte_data.pop(), byte_data.pop())
-            temp1 = self.decode_packet_32(byte_data.pop())
+            self.decode_packet_33(byte_data.pop(), byte_data.pop())
+            self.decode_packet_32(byte_data.pop())
             sensor_data['cliff right signal'] = self.decode_packet_31(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front right signal'] = self.decode_packet_30(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front left signal'] = self.decode_packet_29(byte_data.pop(), byte_data.pop())
@@ -815,7 +814,7 @@ class sensorPacketDecoder(object):
             sensor_data['distance'] = self.decode_packet_19(byte_data.pop(), byte_data.pop())
             sensor_data['buttons'] = self.decode_packet_18(byte_data.pop())
             sensor_data['infared char omni'] = self.decode_packet_17(byte_data.pop())
-            temp = self.decode_packet_16(byte_data.pop())
+            self.decode_packet_16(byte_data.pop())
             sensor_data['dirt detect'] = self.decode_packet_15(byte_data.pop())
             sensor_data['wheel overcurrents'] = self.decode_packet_14(byte_data.pop())
             sensor_data['virtual wall'] = self.decode_packet_13(byte_data.pop())
@@ -846,7 +845,7 @@ class sensorPacketDecoder(object):
             sensor_data['dirt detect'] = self.decode_packet_15(byte_data.pop())
         elif id == 16:
             #unused
-            temp = self.decode_packet_16(byte_data.pop())
+            self.decode_packet_16(byte_data.pop())
         elif id == 17:
             sensor_data['infared char omni'] = self.decode_packet_17(byte_data.pop())
         elif id == 18:
@@ -889,10 +888,10 @@ class sensorPacketDecoder(object):
             #2
             sensor_data['cliff right signal'] = self.decode_packet_31(byte_data.pop(), byte_data.pop())
         elif id == 32:
-            temp = self.decode_packet_32(byte_data.pop())
+            self.decode_packet_32(byte_data.pop())
         elif id == 33:
             #2
-            temp = self.decode_packet_33(byte_data.pop(), byte_data.pop())
+            self.decode_packet_33(byte_data.pop(), byte_data.pop())
         elif id == 34:
             sensor_data['charging sources available'] = self.decode_packet_34(byte_data.pop())
         elif id == 35:
@@ -987,8 +986,8 @@ class sensorPacketDecoder(object):
             sensor_data['song number'] = self.decode_packet_36(byte_data.pop())
             sensor_data['oi mode'] = self.decode_packet_35(byte_data.pop())
             sensor_data['charging sources available'] = self.decode_packet_34(byte_data.pop())
-            temp2 = self.decode_packet_33(byte_data.pop(), byte_data.pop())
-            temp1 = self.decode_packet_32(byte_data.pop())
+            self.decode_packet_33(byte_data.pop(), byte_data.pop())
+            self.decode_packet_32(byte_data.pop())
             sensor_data['cliff right signal'] = self.decode_packet_31(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front right signal'] = self.decode_packet_30(byte_data.pop(), byte_data.pop())
             sensor_data['cliff front left signal'] = self.decode_packet_29(byte_data.pop(), byte_data.pop())
@@ -1004,7 +1003,7 @@ class sensorPacketDecoder(object):
             sensor_data['distance'] = self.decode_packet_19(byte_data.pop(), byte_data.pop())
             sensor_data['buttons'] = self.decode_packet_18(byte_data.pop())
             sensor_data['infared char omni'] = self.decode_packet_17(byte_data.pop())
-            temp = self.decode_packet_16(byte_data.pop())
+            self.decode_packet_16(byte_data.pop())
             sensor_data['dirt detect'] = self.decode_packet_15(byte_data.pop())
             sensor_data['wheel overcurrents'] = self.decode_packet_14(byte_data.pop())
             sensor_data['virtual wall'] = self.decode_packet_13(byte_data.pop())
