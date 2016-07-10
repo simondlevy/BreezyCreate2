@@ -22,16 +22,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
-
-
 import json
 import serial
 import struct
 import os
 import warnings
 import time
-
+from pkg_resources import resource_string
 
 class Error(Exception):
     """Error"""
@@ -85,21 +82,7 @@ class Config(object):
         """ Loads a Create2 config file, that holds various dicts of opcodes.
         
         """
-        if os.path.isfile(self.fname):
-            #file exists, load it
-            with open(self.fname) as fileData:
-                try:
-                    self.data = json.load(fileData)
-                    print 'Loaded config and opcodes'
-                except:
-                    print 'Could not load config'
-        else:
-            #couldn't find file
-            print "No config file found"
-            raise ValueError('Could not find config')
-    
-    
-
+        self.data = json.loads(resource_string('breezycreate2', self.fname))
         
 class SerialCommandInterface(object):
     """This class handles sending commands to the Create2.

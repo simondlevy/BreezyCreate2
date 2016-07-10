@@ -26,6 +26,7 @@ from distutils.core import setup
 
 setup (name = 'BreezyCreate2',
         packages = ['breezycreate2'],
+        package_data={'breezycreate2' : ['config.json']},
         version = '0.1',
         description = 'Simple API for iRobot Create2',
         author='Simon D. Levy',
