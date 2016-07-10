@@ -2,12 +2,12 @@
 
 DRIVETIME = 1 #seconds
 
-import create2api
+import breezycreate2
 import time
 import json
 
 # Create a Create2. This will automatically try to connect to your robot over serial
-bot = create2api.Create2()
+bot = breezycreate2.Create2()
 
 # Start the Create2
 bot.start()
