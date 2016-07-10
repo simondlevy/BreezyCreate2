@@ -11,29 +11,16 @@ bot = Robot()
 # Play a note to let us know you're alive!
 bot.playNote('A4', 100)
 
-time.sleep(1)
-
-bot.close()
-
-exit(0)
-
+'''
 # Tell the Create2 to drive straight forward at a speed of 100 mm/s
-#bot.drive_straight(100)
+bot.setForwardSpeed(100)
 
 # Wait for a few seconds
-#time.sleep(DRIVETIME)
+time.sleep(DRIVETIME)
 
-# Tell the Create2 to drive straight backward at a speed of 100 mm/s
-#bot.drive_straight(-100)
+# Stop
+bot.stop()
 
-# Wait for a few seconds
-#time.sleep(DRIVETIME)
-
-# Stop the bot
-#bot.drive_straight(0)
-
-#bot.turn_clockwise(100)
-#time.sleep(2)
 
 # Listen for a bumper hit
 while True:
@@ -49,6 +36,7 @@ while True:
     print('-------------------------------')
 
     time.sleep(.5)
+'''
 
 # Close the connection
-bot.destroy()
+bot.close()

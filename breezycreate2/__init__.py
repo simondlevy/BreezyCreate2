@@ -141,7 +141,7 @@ class Robot(object):
 
     def __init__(self, port='/dev/ttyUSB0', baud=115200):
 
-        self.robot = Create2(port, baud)
+        self.robot = _Create2(port, baud)
         self.robot.start()
         self.robot.safe()
 
@@ -155,7 +155,7 @@ class Robot(object):
 
 
         
-class Create2(object):
+class _Create2(object):
     """The top level class for controlling a Create2.
         This is the only class that outside scripts should be interacting with.    
     
@@ -176,7 +176,7 @@ class Create2(object):
         """Closes up serial ports and terminates connection to the Create2
         """
         self.SCI.Close()
-        print('Disconnected')
+        print('disconnected')
     
     
     """ START OF OPEN INTERFACE COMMANDS
