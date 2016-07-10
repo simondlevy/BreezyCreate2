@@ -36,7 +36,6 @@ class Robot(object):
         '''
         Connects to the Create2 on the specified port at the specified baud rate.
         '''
-
         self.robot = _Create2(port, baud)
         self.robot.start()
         self.robot.safe()
@@ -45,14 +44,14 @@ class Robot(object):
         '''
         Closes the connection to the robot.
         '''
-
         self.robot.destroy()
 
     def playNote(self, note, duration):
         '''
         Plays a specified note for a specified duration.
+        Notes are specified in MIDI format; e.g., "A#8", "C9".
+        Google MIDI TABLE for more info.
         '''
-
         self.robot.play_note(note, duration)
 
     def setForwardSpeed(self, speed):
