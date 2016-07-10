@@ -1,4 +1,4 @@
-        # The MIT License
+# The MIT License
 #
 # Copyright (c) 2007 Damon Kohler
 # Copyright (c) 2015 Jonathan Le Roux (Modifications for Create 2)
@@ -170,7 +170,8 @@ class Create2(object):
         self.config = Config()
         self.config.load()
         self.decoder = sensorPacketDecoder(dict(self.config.data['sensor group packet lengths']))
-        self.sensor_state = dict(self.config.data['sensor data']) # Load a raw sensor dict. None of these values are correct.
+        # Load a raw sensor dict. None of these values are correct.
+        self.sensor_state = dict(self.config.data['sensor data']) 
         self.sleep_timer = .5
         
     
@@ -457,7 +458,9 @@ class Create2(object):
         
     
         
-  #NOTE ABOUT SONGS: For some reason you cannot play a new song immediately after playing a different one, only the first song will play. You have to time.sleep() at least a fraction of a second for the speaker to process    
+    #NOTE ABOUT SONGS: For some reason you cannot play a new song immediately
+    #after playing a different one, only the first song will play. You have to
+    #time.sleep() at least a fraction of a second for the speaker to process
     def song(self):
         """Not implementing this for now.
         """
@@ -465,8 +468,9 @@ class Create2(object):
         #self.SCI.send(self.config.data['opcodes']['start'],0)
         
     def play_test_sound(self):
-        """written to figure out how to play sounds. creates a song with a playlist of notes and durations and then plays it through the speaker using a hilariously messy spread of concatenated lists
-        """
+        """written to figure out how to play sounds. creates a song with a
+        playlist of notes and durations and then plays it through the speaker
+        using a hilariously messy spread of concatenated lists """
         noError = True
         #sets lengths of notes
         short_note = 8
@@ -501,8 +505,9 @@ class Create2(object):
     
 
     def create_song(self,song_number,play_list):
-        """create a new song from a playlist of notes and durations and tells the robot about it. Note: no error checking for playlist accuracy (must be a series of note opcodes and durations)
-        """
+        """create a new song from a playlist of notes and durations and tells
+        the robot about it. Note: no error checking for playlist accuracy (must
+        be a series of note opcodes and durations) """
         noError = True
         
         #the length of the song is the length of the array divided by 2
