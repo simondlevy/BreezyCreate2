@@ -32,6 +32,10 @@ time.sleep(DRIVETIME)
 # Stop the bot
 bot.drive_straight(0)
 
+bot.turn_clockwise(100)
+time.sleep(2)
+bot.turn_clockwise(0)
+
 exit(0)
 
 # Listen for a bumper hit
