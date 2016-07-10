@@ -1,9 +1,9 @@
 The MIT License
 
-Copyright (c) 2007 Damon Kohler
-Copyright (c) 2015 Jonathan Le Roux (Modifications for Create 2)
-Copyright (c) 2015 Brandon Pomeroy
-Copyright (c) 2016 Simon D. Levy
+Copyright (c) 2007 Damon Kohler<br>
+Copyright (c) 2015 Jonathan Le Roux (Modifications for Create 2)<br>
+Copyright (c) 2015 Brandon Pomeroy<br>
+Copyright (c) 2016 Simon D. Levy<br>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
