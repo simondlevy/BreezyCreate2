@@ -140,19 +140,39 @@ class _SerialCommandInterface(object):
 class Robot(object):
 
     def __init__(self, port='/dev/ttyUSB0', baud=115200):
+        '''
+        Connects to the Create2 on the specified port at the specified baud rate.
+        '''
 
         self.robot = _Create2(port, baud)
         self.robot.start()
         self.robot.safe()
 
     def close(self):
+        '''
+        Connects to the Create2 on the specified port at the specified baud rate.
+        '''
 
         self.robot.destroy()
 
     def playNote(self, note, duration):
+        '''
+        Plays a specified note for a specified duration.
+        '''
 
         self.robot.play_note(note, duration)
 
+    def setForwardSpeed(self, speed):
+        '''
+        Sets the robot's forward speed in mm/sec.
+        '''
+        self.robot.drive_straight(speed)
+
+    def stop(self):
+        '''
+        Halts all motion on the robot
+        '''
+        self.robot.drive_straight(0)
 
         
 class _Create2(object):
