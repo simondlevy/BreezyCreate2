@@ -3,13 +3,10 @@
 '''
 setup.py - Python distutils setup file for Create2API package.
 
-This code is part of Create2API
+This code is part of BreezyCreate2
 
 The MIT License
 
-Copyright (c) 2007 Damon Kohler
-Copyright (c) 2015 Jonathan Le Roux (Modifications for Create 2)
-Copyright (c) 2015 Brandon Pomeroy
 Copyright (c) 2016 Simon D. Levy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
