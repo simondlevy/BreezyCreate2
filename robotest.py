@@ -18,9 +18,9 @@ time.sleep(1)
 # Stop
 bot.setTurnSpeed(0)
 
-# Listen for bumper hits for a few seconds
+# Listen for bumper hits for ten seconds
 start_time = time.time()
-while (time.time() - start_time) < 3:
+while (time.time() - start_time) < 10:
     
     print(bot.getBumpers())
 
