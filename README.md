@@ -1,4 +1,5 @@
-BreezyCreate provides a simple abstraction layer on top of the Create2API
+BreezyCreate provides a simple abstraction layer on top of the 
+<a href="https://github.com/pomeroyb/Create2Control">Create2API</a>
 library by Brandon Pomeroy, suitable for use by beginning Python programmers.
 BreezyCreate2 uses the standard Python distutils
 to install the Python module breezycreate2 and the JSON file required by
