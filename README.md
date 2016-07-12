@@ -1,4 +1,4 @@
-BreezyCreate provides a simple abstraction layer on top of the 
+BreezyCreate2 provides a simple abstraction layer on top of the 
 <a href="https://github.com/pomeroyb/Create2Control">Create2API</a>
 library by Brandon Pomeroy, suitable for use by beginning Python programmers.
 BreezyCreate2 uses the standard Python distutils
