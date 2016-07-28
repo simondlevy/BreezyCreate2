@@ -75,8 +75,7 @@ class Robot(object):
         Returns left,right bumper states as booleans.
         '''
 
-        #Packet 100 contains all sensor data.
-        self.robot.get_packet(100)
+        self._get_sensor_packet()
 
         sensors = self.robot.sensor_state['wheel drop and bumps']
 
@@ -87,11 +86,14 @@ class Robot(object):
         Returns wall sensor value as a number.  Larger number means closer to wall.
         '''
 
-        #Packet 100 contains all sensor data.
-        self.robot.get_packet(100)
+        self._get_sensor_packet()
 
         return self.robot.sensor_state['wall signal']
 
+    def _get_sensor_packet(self):
+
+        #Packet 100 contains all sensor data.
+        self.robot.get_packet(100)
 
 class _Error(Exception):
     """Error"""
