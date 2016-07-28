@@ -81,6 +81,18 @@ class Robot(object):
 
         return sensors['bump left'], sensors['bump right']
 
+    def getCliffSensors(self):
+        '''
+        Returns left, front-left, front-right, and right bumper states as booleans.
+        '''
+
+        self._get_sensor_packet()
+
+        return self.robot.sensor_state['cliff left'],\
+               self.robot.sensor_state['cliff front left'],\
+               self.robot.sensor_state['cliff front right'],\
+               self.robot.sensor_state['cliff right']
+
     def getWallSensor(self):
         '''
         Returns wall sensor value as a number.  Larger number means closer to wall.
