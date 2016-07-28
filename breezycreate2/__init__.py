@@ -79,7 +79,18 @@ class Robot(object):
         self.robot.get_packet(100)
 
         sensors = self.robot.sensor_state['wheel drop and bumps']
+
         return sensors['bump left'], sensors['bump right']
+
+    def getWallSensor(self):
+        '''
+        Returns wall sensor value as a number.  Larger number means closer to wall.
+        '''
+
+        #Packet 100 contains all sensor data.
+        self.robot.get_packet(100)
+
+        return self.robot.sensor_state['wall signal']
 
 
 class _Error(Exception):

@@ -46,10 +46,10 @@ time.sleep(1)
 # Stop
 bot.setTurnSpeed(0)
 
-# Listen for bumper hits for ten seconds
+# Report bumper hits and wall proximity for 30 seconds
 start_time = time.time()
-while (time.time() - start_time) < 10:
-    print(bot.getBumpers())
+while (time.time() - start_time) < 30:
+    print('Bumpers: ' + str(bot.getBumpers()) + '    Wall: ' + str(bot.getWallSensor()))
 
 # Close the connection
 bot.close()
