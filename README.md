@@ -6,7 +6,7 @@ to install the Python module breezycreate2 and the JSON file required by
 Create2API.  I have tested it with Python 2.7 and 3.5.
 
 Once you've installed BreezyCreate2, you can access its sole
-class, the <tt>Robot</tt> class, which has five methods for interacting
-with the robot: <tt>setForwardSpeed</tt>, <tt>setTurnSpeed</tt>, 
-<tt>playNote</tt>,  and <tt>getBumpers</tt>. (See the <tt>robotest.py</tt>
+class, the <tt>Robot</tt> class, which has methods for interacting
+with the robot: <tt>setForwardSpeed</tt>, 
+<tt>playNote</tt>,  and <tt>getBumpers</tt>, etc. (See the <tt>robotest.py</tt>
 script for an example.)
