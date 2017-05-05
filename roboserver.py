@@ -44,8 +44,11 @@ HOST   = '192.168.2.2'
 PORT    = 20000
 BUFSIZE = 100
 
-def threadfunc(client, bot, values):
+def threadfunc(values):
 
+    # Connect to the Create2
+    bot = Robot()
+    
     while True:
 
         # Convert [-1,+1] axis to [-500,+500] turn speed
@@ -75,14 +78,11 @@ if __name__ == '__main__':
 
     print('Accepted connection')
 
-    # Connect to the Create2 ---------------------------------------------------
-    bot = Robot()
-    
     # These values will be shared with the command-listener thread
     values = [0,0,0]
 
     # Launch command listener on another thread
-    thread = threading.Thread(target=threadfunc, args = (client, bot, values))
+    thread = threading.Thread(target=threadfunc, args = (values,))
     thread.daemon = True
     thread.start()
 
