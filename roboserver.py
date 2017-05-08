@@ -13,7 +13,7 @@ You should add code to drive your Create2 based on these values.
 
 The MIT License
 
-Copyright (c) 2016 Simon D. Levy
+Copyright (c) 2016 Simon D. Levy, Jane Martin, Joseph Perella
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,19 +48,26 @@ def threadfunc(values):
 
     # Connect to the Create2
     bot = Robot()
-    
+
     while True:
 
+        print("y: ", 500*values[0], " x:  ", 500*values[1])
+
         # Convert [-1,+1] axis to [-500,+500] turn speed
-        bot.setTurnSpeed(500*values[0])
+        bot.setTurnSpeed(500*values[1])
 
         # Yield to main thread
         sleep(.01)
-        
+
+        bot.setForwardSpeed(500*values[0])
+
+        # Yield to main thread
+        sleep(.01)
+
 if __name__ == '__main__':
 
     # Listen for a client ------------------------------------------------------
-    
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
@@ -94,8 +101,8 @@ if __name__ == '__main__':
 
         messages = client.recv(BUFSIZE).decode().split('*')
         for message in messages:
-            parts = message.split()
-            if len(parts) == 3:
-                values[0] = float(parts[0])
-                values[1] = float(parts[1])
-                values[2] = int(parts[2])
+                parts = message.split()
+                if len(parts) == 3:
+                        values[0] = float(parts[0])
+                        values[1] = float(parts[1])
+                        values[2] = int(parts[2])
