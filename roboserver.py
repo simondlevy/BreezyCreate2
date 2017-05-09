@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 
 '''
-roboserver.py
+robotserver.py 
 
 Serves a socket that accepts <X,Y,A> tuples from a client's joystick.
 
 X,Y are control axes (-1..+1); A is autopilot flag (0 or 1).
 
-Current code simply turns robot based on first axis.
-You should add code to drive your Create2 based on these values.
-
+This code is part of BreezyCreate2
 
 The MIT License
 
-Copyright (c) 2016 Simon D. Levy, Jane Martin, Joseph Perella
+Copyright (c) 2016 Simon D. Levy, Rajwol Joshi, Jamie White, Logan Wilson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +19,7 @@ in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 
@@ -40,7 +39,6 @@ import threading
 
 # These are sensible values for  RaspberryPi ad-hoc network
 HOST   = '192.168.2.2'
-#HOST    = '137.113.118.162'
 PORT    = 20000
 BUFSIZE = 100
 
@@ -48,26 +46,23 @@ def threadfunc(values):
 
     # Connect to the Create2
     bot = Robot()
-
+    
     while True:
 
-        print("y: ", 500*values[0], " x:  ", 500*values[1])
-
         # Convert [-1,+1] axis to [-500,+500] turn speed
-        bot.setTurnSpeed(500*values[1])
+        if abs(values[0]) > abs(values[1]):
+            # Only turn
+            bot.setTurnSpeed(500*values[0])
+        else:
+            bot.setForwardSpeed(500*values[1])
 
         # Yield to main thread
         sleep(.01)
-
-        bot.setForwardSpeed(500*values[0])
-
-        # Yield to main thread
-        sleep(.01)
-
+        
 if __name__ == '__main__':
 
     # Listen for a client ------------------------------------------------------
-
+    
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
@@ -101,8 +96,8 @@ if __name__ == '__main__':
 
         messages = client.recv(BUFSIZE).decode().split('*')
         for message in messages:
-                parts = message.split()
-                if len(parts) == 3:
-                        values[0] = float(parts[0])
-                        values[1] = float(parts[1])
-                        values[2] = int(parts[2])
+            parts = message.split()
+            if len(parts) == 3:
+                values[0] = float(parts[0])
+                values[1] = float(parts[1])
+                values[2] = int(parts[2])
