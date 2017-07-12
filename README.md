@@ -14,4 +14,5 @@ script for an example.)
 The <tt>roboserver.py</tt> script can be run on a Raspberry Pi or other
 single-board computer, to control your Create2 over a wireless ad-hoc
 network.  The corresponding <tt>robotclient.py</tt> script uses a joystick or
-game controller to send commands to the server over the network.
+game controller to send commands to the server over the network.   The <tt>playsong.py</tt>
+script will use the Create2 to play a familiar melody.
